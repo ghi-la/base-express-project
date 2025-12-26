@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 
+import User from '../models/mongoDB/userSchema.ts';
+
 export const fakeLogin = (req: any, res: any) => {
   const { username } = req.body;
   if (!username) {
@@ -23,4 +25,18 @@ export const fakeLogin = (req: any, res: any) => {
   res.setHeader('Authorization', `Bearer ${token}`);
 
   res.json({ message: 'Login successful', token });
+};
+
+export const logout = (req: any, res: any) => {
+  res.clearCookie('token');
+  res.json({ message: 'Logout successful' });
+};
+
+export const getAllUsers = async (_req: any, res: any): Promise<void> => {
+  try {
+    const users = await User.find({}, { password: 0 }); // Exclude passwords for security
+    res.status(200).json(users);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
 };

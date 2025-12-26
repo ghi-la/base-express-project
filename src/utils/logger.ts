@@ -7,7 +7,10 @@ export function requestLogger(
   _res: any,
   next: () => void
 ) {
-  console.log('IP Address:', req.ip);
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  console.log(
+    `[${new Date().toISOString()}] \t ${req.ip} \t ${req.method} ${
+      req.originalUrl
+    }`
+  );
   next();
 }
